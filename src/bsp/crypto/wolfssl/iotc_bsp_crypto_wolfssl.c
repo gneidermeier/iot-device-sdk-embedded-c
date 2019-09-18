@@ -27,6 +27,8 @@
 #include "wolfssl/wolfcrypt/asn.h"
 #include "wolfssl/wolfcrypt/ecc.h"
 #include "wolfssl/wolfcrypt/logging.h"
+#include "wolfssl/internal.h" // GN: DerBuffer
+
 
 #include <stdio.h>
 
@@ -123,6 +125,7 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
     const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_len) {
+
   // reusing wolfcrypt_rng from BSP_RNG module
   extern WC_RNG wolfcrypt_rng;
 

@@ -47,6 +47,7 @@ IOTC_CLIENT_ROOTCA_LIST := $(IOTC_CLIENT_PATH)/res/trusted_RootCA_certs/roots.pe
 IOTC_FLAGS_INCLUDE += $(foreach i,$(IOTC_CLIENT_INC_PATH),-I$i)
 
 IOTC_FLAGS_COMPILER ?= -Wall -Werror -Wno-pointer-arith -Wno-format -fstrict-aliasing -Os -Wextra
+#IOTC_FLAGS_COMPILER ?= -Wall -Wno-pointer-arith -Wno-format -fstrict-aliasing -Os -Wextra # GN: idfk .. '-W error' ...  mt-config.mk?
 
 # TLS BSP related configuration
 IOTC_BSP_TLS ?= mbedtls

@@ -74,7 +74,7 @@ $(IOTC_FREERTOS_KERNEL_README_PATH): $(IOTC_FREERTOS_KERNEL_ZIP_PATH)
 $(IOTC_FREERTOS_KERNEL_ZIP_PATH):
 	@echo "IOTC FreeRTOS Linux build: downloading FreeRTOS Kernel to file $@"
 	@-mkdir -p $(dir $@)
-	@curl -L -o $@ $(IOTC_FREERTOS_KERNEL_URL)
+	@curl -k -L -o $@ $(IOTC_FREERTOS_KERNEL_URL) # GN: -k ?
 
 IOTC_BUILD_PRECONDITIONS := $(IOTC_FREERTOS_ADDONS_README_PATH)
 
