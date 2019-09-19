@@ -15,18 +15,18 @@ COMPILER ?= ti-cgt-arm_18.1.3.LTS
 ###
 ## MAC HOST OS
 ###
-ifeq ($(IOTC_HOST_PLATFORM),Darwin)
+ifeq ($(XI_HOST_PLATFORM),Darwin)
 	# osx cross-compilation downloads
 
-	GN_CC3220SF_PATH_CCS_TOOLS ?= /Applications/ti/ccsv8/tools
+	XI_CC3220SF_PATH_CCS_TOOLS ?= /Applications/ti/ccsv7/tools
 	XI_CC3220SF_PATH_SDK ?= /Applications/ti/simplelink_cc32xx_sdk_1_50_00_06
 	XI_CC3220SF_PATH_XDC_SDK ?= /Applications/ti/xdctools_3_50_03_33_core
 
 
-	CC = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
-	AR = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
+	CC = $(XI_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
+	AR = $(XI_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
 
-	IOTC_COMMON_COMPILER_FLAGS += -I$(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
+	XI_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
 
 ###
 ## WINDOWS HOST OS
@@ -34,9 +34,9 @@ ifeq ($(IOTC_HOST_PLATFORM),Darwin)
 else ifneq (,$(findstring Windows,$(IOTC_HOST_PLATFORM)))
 	 # windows cross-compilation
 
-    GN_CC3220SF_PATH_CCS_TOOLS ?= C:/ti/ccsv7/tools
+	GN_CC3220SF_PATH_CCS_TOOLS ?= C:/ti/ccsv8/tools
 
-	XI_CC3220SF_PATH_SDK ?= C:/ti/simplelink_cc32xx_sdk_1_60_00_04
+	XI_CC3220SF_PATH_SDK ?= C:/ti/simplelink_cc32xx_sdk_2_10_00_04
 	XI_CC3220SF_PATH_XDC_SDK ?= C:/ti/xdctools_3_50_03_33_core
 
 	CC = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
@@ -51,9 +51,9 @@ else ifeq ($(IOTC_HOST_PLATFORM),Linux)
 	# linux cross-compilation prerequisite downloads
 
 #	GN_CC3220SF_PATH_CCS_TOOLS ?= $(HOME)/Downloads/xi_artifactory/ti/ccsv6/tools   # GN:
-	GN_CC3220SF_PATH_CCS_TOOLS ?= /opt/ti/ccsv7/tools
+	GN_CC3220SF_PATH_CCS_TOOLS ?= /opt/ti/ccsv8/tools
 #	XI_CC3220SF_PATH_SDK ?= $(HOME)/Downloads/xi_artifactory/ti/CC3220SDK_1.2.0/cc3220-sdk   # GN: 
-	XI_CC3220SF_PATH_SDK ?= /opt/ti/simplelink_cc32xx_sdk_1_60_00_04/
+	XI_CC3220SF_PATH_SDK ?= /opt/ti/simplelink_cc32xx_sdk_2_10_00_04/
 
 # GN:
 	XI_CC3220SF_PATH_XDC_SDK ?= /opt/ti/xdctools_3_50_04_43_core
@@ -116,7 +116,7 @@ IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers/net/wi
 IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers/net/wifi/bsd/arpa
 IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/devices/cc32xx/inc
 
-# GN: unitstd.h ... idfk
+# GN: unitstd.h ... idk
 IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/posix/ccs
 
 # clock
