@@ -4,9 +4,9 @@
  * it is licensed under the BSD 3-Clause license.
  */
 
-#include <xi_bsp_fwu.h>
-#include <xi_bsp_debug.h>
-#include <xively_error.h>
+#include <iotc_bsp_fwu.h>
+#include <iotc_bsp_debug.h>
+//#include <xively_error.h>
 
 #include "simplelink.h"
 #include "hw_types.h"
@@ -14,13 +14,13 @@
 
 static void _reboot_device()
 {
-    xi_bsp_debug_logger( " Rebooting the CC3220!" );
+    iotc_bsp_debug_logger( " Rebooting the CC3220!" );
 
     const _i16 status = sl_Stop( 200 );
 
     if ( 0 > status )
     {
-        xi_bsp_debug_format( "SimpleLink processor failed to stop with error: [ %i ]",
+        iotc_bsp_debug_format( "SimpleLink processor failed to stop with error: [ %i ]",
                              status );
 
         while ( 1 )
@@ -42,7 +42,7 @@ static _i16 _ota_get_pending_commit()
                           sizeof( SlFsControlGetStorageInfoResponse_t ), NULL );
     if ( 0 > status )
     {
-        xi_bsp_debug_format( "Error checking pending commit, status: [ %i ]", status );
+        iotc_bsp_debug_format( "Error checking pending commit, status: [ %i ]", status );
         return status;
     }
 
@@ -60,7 +60,7 @@ static _i16 _ota_commit()
 
     if ( 0 > status )
     {
-        xi_bsp_debug_format( "Error attempting a commit, status: [ %i ]", status );
+        iotc_bsp_debug_format( "Error attempting a commit, status: [ %i ]", status );
     }
     return status;
 }
@@ -75,22 +75,22 @@ static _i16 _ota_rollback()
 
     if ( 0 > status )
     {
-        xi_bsp_debug_format( "Error attempting a rollback, status: [ %i ]", status );
+        iotc_bsp_debug_format( "Error attempting a rollback, status: [ %i ]", status );
     }
     return status;
 }
 
 
-uint8_t xi_bsp_fwu_is_this_firmware( const char* const resource_name )
+uint8_t iotc_bsp_fwu_is_this_firmware( const char* const resource_name )
 {
     return ( 0 == strcmp( "firmware.tar", resource_name ) ) ? 1 : 0;
 }
 
-xi_bsp_fwu_state_t xi_bsp_fwu_on_new_firmware_ok()
+iotc_bsp_fwu_state_t iotc_bsp_fwu_on_new_firmware_ok()
 {
     if ( _ota_get_pending_commit() )
     {
-        xi_bsp_debug_logger( " Pending commit, firmware OK." );
+        iotc_bsp_debug_logger( " Pending commit, firmware OK." );
 
         /* What should we do if we get a failure to commit? Reboot? */
         _ota_commit();
@@ -98,17 +98,17 @@ xi_bsp_fwu_state_t xi_bsp_fwu_on_new_firmware_ok()
         /* reset the watchdog timer so we don't falsly revert. */
         PRCMPeripheralReset( 0x0000000B );
 
-        return XI_BSP_FWU_ACTUAL_COMMIT_HAPPENED;
+        return IOTC_BSP_FWU_ACTUAL_COMMIT_HAPPENED;
     }
 
-    return XI_BSP_FWU_STATE_OK;
+    return IOTC_BSP_FWU_STATE_OK;
 }
 
-void xi_bsp_fwu_on_new_firmware_failure()
+void iotc_bsp_fwu_on_new_firmware_failure()
 {
     if ( _ota_get_pending_commit() )
     {
-        xi_bsp_debug_logger( " Pending commit, firmware BAD." );
+        iotc_bsp_debug_logger( " Pending commit, firmware BAD." );
 
         _ota_rollback();
     }
@@ -116,12 +116,12 @@ void xi_bsp_fwu_on_new_firmware_failure()
     _reboot_device();
 }
 
-void xi_bsp_fwu_on_package_download_failure()
+void iotc_bsp_fwu_on_package_download_failure()
 {
     /* how  do you toggle LED without a reference on CC3220? */
 }
 
-void xi_bsp_fwu_order_resource_downloads( const char* const* resource_names,
+void iotc_bsp_fwu_order_resource_downloads( const char* const* resource_names,
                                           uint16_t list_len,
                                           int32_t* download_order )
 {
@@ -132,10 +132,10 @@ void xi_bsp_fwu_order_resource_downloads( const char* const* resource_names,
     /* just go in default order. */
 }
 
-void xi_bsp_fwu_on_package_download_finished( const char* const firmware_resource_name )
+void iotc_bsp_fwu_on_package_download_finished( const char* const firmware_resource_name )
 {
     ( void )firmware_resource_name;
-    xi_bsp_debug_logger( "Download finished, attemting a reboot." );
+    iotc_bsp_debug_logger( "Download finished, attemting a reboot." );
     /* reboot the device */
     _reboot_device();
 }

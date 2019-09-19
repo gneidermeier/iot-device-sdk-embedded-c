@@ -4,11 +4,11 @@
  * it is licensed under the BSD 3-Clause license.
  */
 
-#ifndef __XI_BSP_FWU_H__
-#define __XI_BSP_FWU_H__
+#ifndef __IOTC_BSP_FWU_H__
+#define __IOTC_BSP_FWU_H__
 
 /**
- * @file xi_bsp_fwu.h
+ * @file iotc_bsp_fwu.h
  * @brief Xively Client's Board Support Package (BSP) for Firmware Updates
  *
  * This file defines the Firmware Update (FWU) API used by the Xively C Client.
@@ -19,17 +19,17 @@
  * others are checksum generators.
  */
 
-#include <xively_error.h>
+//#include <xively_error.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef enum xi_bsp_fwu_state_e {
-    XI_BSP_FWU_STATE_OK               = 0,
-    XI_BSP_FWU_ACTUAL_COMMIT_HAPPENED = 1,
-} xi_bsp_fwu_state_t;
+typedef enum iotc_bsp_fwu_state_e {
+    IOTC_BSP_FWU_STATE_OK               = 0,
+    IOTC_BSP_FWU_ACTUAL_COMMIT_HAPPENED = 1,
+} iotc_bsp_fwu_state_t;
 
 /**
  * @function
@@ -42,7 +42,7 @@ typedef enum xi_bsp_fwu_state_e {
  * @param [in] resource_name name of the resource the decision has to be based on
  * @return 1 if the resource is firmware, 0 otherwise
  */
-uint8_t xi_bsp_fwu_is_this_firmware( const char* const resource_name );
+uint8_t iotc_bsp_fwu_is_this_firmware( const char* const resource_name );
 
 /**
  * @function
@@ -51,11 +51,11 @@ uint8_t xi_bsp_fwu_is_this_firmware( const char* const resource_name );
  *
  * Called by the updated/new firmware.
  *
- * @return XI_BSP_FWU_ACTUAL_COMMIT_HAPPENED if the function actually committed the
+ * @return IOTC_BSP_FWU_ACTUAL_COMMIT_HAPPENED if the function actually committed the
  *         firmware. This means the new firmware runs first time.
- *         XI_BSP_FWU_STATE_OK otherwise.
+ *         IOTC_BSP_FWU_STATE_OK otherwise.
  */
-xi_bsp_fwu_state_t xi_bsp_fwu_on_new_firmware_ok();
+iotc_bsp_fwu_state_t iotc_bsp_fwu_on_new_firmware_ok();
 
 /**
  * @function
@@ -66,12 +66,12 @@ xi_bsp_fwu_state_t xi_bsp_fwu_on_new_firmware_ok();
  * Currently this function is only called when the client is unable to connect to Xively
  * Service through Control Topic. Since this would disable further update capability.
  * It's up to the application what to do in such situation. For reference please
- * check the TI CC3200 implementation in `xi_bsp_fwu_cc3200.c` file. This
+ * check the TI CC3200 implementation in `iotc_bsp_fwu_cc3200.c` file. This
  * implementation reboots itself which results in a rollback to previous firmware.
  *
  * Called by the updated/new firmware.
  */
-void xi_bsp_fwu_on_new_firmware_failure();
+void iotc_bsp_fwu_on_new_firmware_failure();
 
 /**
  * @function
@@ -80,7 +80,7 @@ void xi_bsp_fwu_on_new_firmware_failure();
  *
  * Called by the firmware under update.
  */
-void xi_bsp_fwu_on_package_download_failure();
+void iotc_bsp_fwu_on_package_download_failure();
 
 /**
  * @function
@@ -104,7 +104,7 @@ void xi_bsp_fwu_on_package_download_failure();
  * system to order the downloads by the 3rd, 4th, 2nd and 1st of the resource
  * names, respectively.
  */
-void xi_bsp_fwu_order_resource_downloads( const char* const* resource_names,
+void iotc_bsp_fwu_order_resource_downloads( const char* const* resource_names,
                                           uint16_t list_len,
                                           int32_t* download_order );
 
@@ -124,7 +124,7 @@ void xi_bsp_fwu_order_resource_downloads( const char* const* resource_names,
  * reference implementation, we start the new client in a new process and kill this
  * process, for instance.
  */
-void xi_bsp_fwu_on_package_download_finished( const char* const firmware_resource_name );
+void iotc_bsp_fwu_on_package_download_finished( const char* const firmware_resource_name );
 
 
 /**
@@ -135,7 +135,7 @@ void xi_bsp_fwu_on_package_download_finished( const char* const firmware_resourc
  *                               checksum function calls. The implementation should
  *                               store the context pointer on *checksum_context.
  */
-void xi_bsp_fwu_checksum_init( void** checksum_context );
+void iotc_bsp_fwu_checksum_init( void** checksum_context );
 
 /**
  * @function
@@ -146,7 +146,7 @@ void xi_bsp_fwu_checksum_init( void** checksum_context );
  * @param [in] data the checksum should be calculated on this data
  * @param [in] len number of bytes pointed to the data parameter
  */
-void xi_bsp_fwu_checksum_update( void* checksum_context,
+void iotc_bsp_fwu_checksum_update( void* checksum_context,
                                  const uint8_t* data,
                                  uint32_t len );
 
@@ -163,7 +163,7 @@ void xi_bsp_fwu_checksum_update( void* checksum_context,
  * @param [out] buffer_out outgoing pointer on an array containing the checksum itself.
  * @param [out] buffer_len_out the number of bytes of the outgoing buffer
  */
-void xi_bsp_fwu_checksum_final( void** checksum_context,
+void iotc_bsp_fwu_checksum_final( void** checksum_context,
                                 uint8_t** buffer_out,
                                 uint16_t* buffer_len_out );
 
@@ -171,4 +171,4 @@ void xi_bsp_fwu_checksum_final( void** checksum_context,
 }
 #endif
 
-#endif /* __XI_BSP_FWU_H__ */
+#endif /* __IOTC_BSP_FWU_H__ */
