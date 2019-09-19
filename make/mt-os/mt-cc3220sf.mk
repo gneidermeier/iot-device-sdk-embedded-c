@@ -118,6 +118,9 @@ IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/devices/cc32xx
 
 # GN: unitstd.h ... idk
 IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/posix/ccs
+# GN: source file "netinet/in.h"
+IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/net/bsd
+
 
 # clock
 IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/kernel/tirtos/packages

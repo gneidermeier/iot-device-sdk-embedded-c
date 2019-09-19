@@ -2,6 +2,7 @@
  *
  * This is part of the Xively C Client library,
  * it is licensed under the BSD 3-Clause license.
+ * GN: 9/19/91 added to https://github.com/gneidermeier/iot-device-sdk-embedded-c.git
  */
 
 #ifndef __XI_BSP_TIME_CC3200_SNTP_H__
@@ -30,14 +31,14 @@ typedef uint32_t ntp_time_t;
  * @brief Returns seconds since 1900/01/01 00:00:00
  */
 extern ntp_time_t
-xi_bsp_time_sntp_getseconds_ntp( void ); // Seconds since 1900/01/01 00:00:00
+iotc_bsp_time_sntp_getseconds_ntp( void ); // Seconds since 1900/01/01 00:00:00
 
 /**
  * @function
  * @brief Returns seconds since 1970/01/01 00:00:00
  */
 extern posix_time_t
-xi_bsp_time_sntp_getseconds_posix( void ); // Seconds since 1970/01/01 00:00:00
+iotc_bsp_time_sntp_getseconds_posix( void ); // Seconds since 1970/01/01 00:00:00
 
 /**
  * @function
@@ -47,7 +48,7 @@ xi_bsp_time_sntp_getseconds_posix( void ); // Seconds since 1970/01/01 00:00:00
  *
  * Cycles through multiple NTP servers until date/time is acquired.
  */
-void xi_bsp_time_sntp_init( void* pvParameters );
+void iotc_bsp_time_sntp_init( void* pvParameters );
 
 extern uint32_t uptime;
 

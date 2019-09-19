@@ -16,9 +16,37 @@
 
 #include <iotc_bsp_time.h>
 
-void iotc_bsp_time_init() { /* empty */
+#include <hw_types.h>
+#include <ti/sysbios/BIOS.h>
+#include <ti/sysbios/knl/Clock.h>
+
+Clock_Struct clk0Struct;
+void clockSecondTick( UArg arg0 );
+
+
+void iotc_bsp_time_init() { 
+
+    Clock_Params clkParams;
+
+    Clock_Params_init( &clkParams );
+    clkParams.period    = 1000; // 1 second
+    clkParams.startFlag = TRUE;
+
+    /* Construct a periodic Clock Instance */
+    Clock_construct( &clk0Struct, ( Clock_FuncPtr )clockSecondTick, clkParams.period,
+                     &clkParams );
+
+    iotc_bsp_time_sntp_init( NULL );
 }
 
-iotc_time_t iotc_bsp_time_getcurrenttime_seconds() { return 1; }
+iotc_time_t iotc_bsp_time_getcurrenttime_seconds() { 
 
-iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds() { return 1; }
+    return iotc_bsp_time_sntp_getseconds_posix();
+}
+
+iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds() {
+
+    /* note this returns seconds and not milliseconds since milliseconds from EPOCH
+       do not fit into 32 bits */
+    return iotc_bsp_time_sntp_getseconds_posix();
+}

@@ -2,6 +2,7 @@
  *
  * This is part of the Xively C Client library,
  * it is licensed under the BSD 3-Clause license.
+ * GN: 9/19/91 added to https://github.com/gneidermeier/iot-device-sdk-embedded-c.git
  */
 
 #include <simplelink.h>
@@ -12,8 +13,8 @@
  *  sntp_task.c                                                               *
  *                                                                            *
  ******************************************************************************/
-#include "xi_bsp_time_cc3220sf_sntp.h"
-#include "xi_bsp_hton.h"
+#include "iotc_bsp_time_cc3220sf_sntp.h"
+#include "iotc_bsp_hton.h"
 
 /******************************************************************************
  *                                                                            *
@@ -368,7 +369,7 @@ static ntp_time_t sntp_get( uint32_t server_addr )
 }
 
 
-void xi_bsp_time_sntp_init( void* pvParameters )
+void iotc_bsp_time_sntp_init( void* pvParameters )
 {
     uint32_t server_addr;
     ntp_time_t t;
@@ -391,7 +392,7 @@ void xi_bsp_time_sntp_init( void* pvParameters )
         if ( t > 0 )
         {
             start_time_ntp = ( t - uptime );
-            /* printf( "SNTP_G: %d, %s->0x%08X\n\r", xi_bsp_time_sntp_getseconds_posix(),
+            /* printf( "SNTP_G: %d, %s->0x%08X\n\r", iotc_bsp_time_sntp_getseconds_posix(),
                     ntp_server_names[ntp_server_index], server_addr ); */
 
             sleep_ms = NTP_UPDATE_MS;
@@ -402,13 +403,13 @@ void xi_bsp_time_sntp_init( void* pvParameters )
         }
 
         ( void )sleep_ms;
-        /* printf( "SNTP_L: %d, UT %d\n\r", xi_bsp_time_sntp_getseconds_posix(), uptime );
+        /* printf( "SNTP_L: %d, UT %d\n\r", iotc_bsp_time_sntp_getseconds_posix(), uptime );
          */
         break;
     }
 }
 
-ntp_time_t xi_bsp_time_sntp_getseconds_ntp( void )
+ntp_time_t iotc_bsp_time_sntp_getseconds_ntp( void )
 {
     ntp_time_t rval = 0;
 
@@ -420,7 +421,7 @@ ntp_time_t xi_bsp_time_sntp_getseconds_ntp( void )
     return rval;
 }
 
-posix_time_t xi_bsp_time_sntp_getseconds_posix( void )
+posix_time_t iotc_bsp_time_sntp_getseconds_posix( void )
 {
     posix_time_t rval = 0;
     if ( start_time_ntp > SECONDS_1900_TO_1970 )
