@@ -2,6 +2,9 @@
 #
 # This is part of the Xively C Client library,
 # it is licensed under the BSD 3-Clause license.
+#  GN:
+#    s/XI_/IOTC_/g
+
 
 include make/mt-os/mt-os-common.mk
 
@@ -15,18 +18,18 @@ COMPILER ?= ti-cgt-arm_18.1.3.LTS
 ###
 ## MAC HOST OS
 ###
-ifeq ($(XI_HOST_PLATFORM),Darwin)
+ifeq ($(IOTC_HOST_PLATFORM),Darwin)
 	# osx cross-compilation downloads
 
-	XI_CC3220SF_PATH_CCS_TOOLS ?= /Applications/ti/ccsv7/tools
-	XI_CC3220SF_PATH_SDK ?= /Applications/ti/simplelink_cc32xx_sdk_1_50_00_06
-	XI_CC3220SF_PATH_XDC_SDK ?= /Applications/ti/xdctools_3_50_03_33_core
+	IOTC_CC3220SF_PATH_CCS_TOOLS ?= /Applications/ti/ccsv7/tools
+	IOTC_CC3220SF_PATH_SDK ?= /Applications/ti/simplelink_cc32xx_sdk_1_50_00_06
+	IOTC_CC3220SF_PATH_XDC_SDK ?= /Applications/ti/xdctools_3_50_04_43_core
 
 
-	CC = $(XI_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
-	AR = $(XI_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
+	CC = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
+	AR = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
 
-	XI_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
+	IOTC_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
 
 ###
 ## WINDOWS HOST OS
@@ -34,15 +37,15 @@ ifeq ($(XI_HOST_PLATFORM),Darwin)
 else ifneq (,$(findstring Windows,$(IOTC_HOST_PLATFORM)))
 	 # windows cross-compilation
 
-	GN_CC3220SF_PATH_CCS_TOOLS ?= C:/ti/ccsv8/tools
+    IOTC_CC3220SF_PATH_CCS_TOOLS ?= C:/ti/ccsv8/tools
 
-	XI_CC3220SF_PATH_SDK ?= C:/ti/simplelink_cc32xx_sdk_2_10_00_04
-	XI_CC3220SF_PATH_XDC_SDK ?= C:/ti/xdctools_3_50_03_33_core
+	IOTC_CC3220SF_PATH_SDK ?= C:/ti/simplelink_cc32xx_sdk_2_10_00_04
+	IOTC_CC3220SF_PATH_XDC_SDK ?= C:/ti/xdctools_3_50_08_24_core
 
-	CC = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
-	AR = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
+	CC = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
+	AR = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
 
-	IOTC_COMMON_COMPILER_FLAGS += -I$(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
+	IOTC_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
 
 ###
 ## LINUX HOST OS
@@ -50,22 +53,20 @@ else ifneq (,$(findstring Windows,$(IOTC_HOST_PLATFORM)))
 else ifeq ($(IOTC_HOST_PLATFORM),Linux)
 	# linux cross-compilation prerequisite downloads
 
-#	GN_CC3220SF_PATH_CCS_TOOLS ?= $(HOME)/Downloads/xi_artifactory/ti/ccsv6/tools   # GN:
-	GN_CC3220SF_PATH_CCS_TOOLS ?= /opt/ti/ccsv8/tools
-#	XI_CC3220SF_PATH_SDK ?= $(HOME)/Downloads/xi_artifactory/ti/CC3220SDK_1.2.0/cc3220-sdk   # GN: 
-	XI_CC3220SF_PATH_SDK ?= /opt/ti/simplelink_cc32xx_sdk_2_10_00_04/
+#GN:	IOTC_CC3220SF_PATH_CCS_TOOLS ?= $(HOME)/Downloads/xi_artifactory/ti/ccsv6/tools
+#GN:	IOTC_CC3220SF_PATH_SDK ?= $(HOME)/Downloads/xi_artifactory/ti/CC3220SDK_1.2.0/cc3220-sdk
 
-# GN:
-	XI_CC3220SF_PATH_XDC_SDK ?= /opt/ti/xdctools_3_50_04_43_core
+	IOTC_CC3220SF_PATH_CCS_TOOLS ?= /opt/ti/ccsv8/tools
+	IOTC_CC3220SF_PATH_SDK ?= /opt/ti/simplelink_cc32xx_sdk_2_10_00_04/
+	IOTC_CC3220SF_PATH_XDC_SDK ?= /opt/ti/xdctools_3_50_04_43_core
+	
+	CC = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
+	AR = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
 
-
-	CC = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
-	AR = $(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
-
-	IOTC_COMMON_COMPILER_FLAGS += -I$(GN_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
+	IOTC_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
 
 ### TOOLCHAIN AUTODOWNLOAD SECTION --- BEGIN
-	XI_BUILD_PRECONDITIONS := $(CC)
+	IOTC_BUILD_PRECONDITIONS := $(CC)
 
 $(CC):
 	git clone https://github.com/atigyi/xi_artifactory.git ~/Downloads/xi_artifactory
@@ -106,38 +107,39 @@ ifneq (,$(findstring debug,$(TARGET)))
 endif
 
 IOTC_COMMON_COMPILER_FLAGS += -DCC32XX_COMPAT=1
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/devices/cc32xx/driverlib
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/net/ota/source
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers/net/wifi
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers/net/wifi/bsd
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers/net/wifi/bsd/sys
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/drivers/net/wifi/bsd/arpa
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/devices/cc32xx/inc
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/devices/cc32xx/driverlib
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/posix/ccs
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/drivers
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/drivers/net
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/drivers/net/wifi
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/net
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/net/bsd
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/net/bsd/sys
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/net/bsd/arpa
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/net/ota/source
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/source/ti/devices/cc32xx/inc
 
-# GN: unitstd.h ... idk
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/posix/ccs
-# GN: source file "netinet/in.h"
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/source/ti/net/bsd
+# GN: file "ti/sysbios/BIOS.h" .../simplelink_cc32xx_sdk_2_10_00_04/kernel/tirtos/packages/ti/sysbios/BIOS.h
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_SDK)/kernel/tirtos/packages
 
+# GN: where the heck my flag .. (stdint.h)
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/include
 
-# clock
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_SDK)/kernel/tirtos/packages
-IOTC_COMMON_COMPILER_FLAGS += -I$(XI_CC3220SF_PATH_XDC_SDK)/packages
+IOTC_COMMON_COMPILER_FLAGS += -I$(IOTC_CC3220SF_PATH_XDC_SDK)/packages
 
 
 # Xively Client config flags
-IOTC_CONFIG_FLAGS += -DXI_CROSS_TARGET
-IOTC_CONFIG_FLAGS += -DXI_EMBEDDED_TESTS
-IOTC_CONFIG_FLAGS += -DXI_DEBUG_PRINTF=Report
-#IOTC_CONFIG_FLAGS += -DXI_CC3220SF_UNSAFELY_DISABLE_CERT_STORE #Will also disable the store's CRL
+IOTC_CONFIG_FLAGS += -DIOTC_CROSS_TARGET
+IOTC_CONFIG_FLAGS += -DIOTC_EMBEDDED_TESTS
+IOTC_CONFIG_FLAGS += -DIOTC_DEBUG_PRINTF=Report
+#IOTC_CONFIG_FLAGS += -DIOTC_CC3220SF_UNSAFELY_DISABLE_CERT_STORE #Will also disable the store's CRL
 
 # wolfssl API
 IOTC_CONFIG_FLAGS += -DNO_WRITEV
 IOTC_CONFIG_FLAGS += -DSINGLE_THREADED
 
 IOTC_ARFLAGS := r $(XI)
-IOTC_LIB_FLAGS := -llibxively.a
+# GN: i don't think so ... IOTC_LIB_FLAGS := -llibxively.a
 
 IOTC_POST_COMPILE_ACTION =
