@@ -40,7 +40,7 @@ else ifneq (,$(findstring Windows,$(IOTC_HOST_PLATFORM)))
     IOTC_CC3220SF_PATH_CCS_TOOLS ?= C:/ti/ccsv8/tools
 
 	IOTC_CC3220SF_PATH_SDK ?= C:/ti/simplelink_cc32xx_sdk_2_10_00_04
-	IOTC_CC3220SF_PATH_XDC_SDK ?= C:/ti/xdctools_3_50_08_24_core
+	IOTC_CC3220SF_PATH_XDC_SDK ?= C:/ti/xdctools_3_50_05_12_core
 
 	CC = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armcl
 	AR = $(IOTC_CC3220SF_PATH_CCS_TOOLS)/compiler/$(COMPILER)/bin/armar
@@ -140,12 +140,17 @@ IOTC_CONFIG_FLAGS += -DNO_WRITEV
 IOTC_CONFIG_FLAGS += -DSINGLE_THREADED
 
 # GN:  use ' make IOTC_BSP_TLS='wolfssl'   PRESET=CC3220SF'
-IOTC_CONFIG_FLAGS += -DHAVE_TLS_EXTENSIONS -DHAVE_ECC  -DIOTC_MEMORY_LIMITER_APPLICATION_MEMORY_LIMIT=524288  -DIOTC_MEMORY_LIMITER_SYSTEM_MEMORY_LIMIT=2024 -DIOTC_FS_POSIX -DIOTC_TLS_LIB_WOLFSSL  \
- -DNO_WOLFSSL_DIR -DWOLFSSL_USER_IO 
-# -DNO_WOLFSSL_SERVER
-# -DWOLFSSL_SNI_HOST_NAME=\"asdf\"
-# -DWOLFSSL_NO_SOCK
+# GN: dirent.h
+IOTC_CONFIG_FLAGS += -DNO_WOLFSSL_DIR 
+# GN: fcntl.h
+IOTC_CONFIG_FLAGS += -DWOLFSSL_USER_IO 
 
+#  GN:  forced some -Defines for bsp_crypto ... wth? "Using TLS extensions requires HAVE_TLS_EXTENSIONS to be defined."
+IOTC_CONFIG_FLAGS += -DHAVE_TLS_EXTENSIONS 
+# GN: "error #20: identifier "OcspRequest" is undefined"
+IOTC_CONFIG_FLAGS += -DHAVE_OCSP
+#IOTC_CONFIG_FLAGS += -DHAVE_ECC   # no I guess don't need this one ;)
+# GN:
 
 IOTC_ARFLAGS := r $(XI)
 # GN: i don't think so ... IOTC_LIB_FLAGS := -llibxively.a
