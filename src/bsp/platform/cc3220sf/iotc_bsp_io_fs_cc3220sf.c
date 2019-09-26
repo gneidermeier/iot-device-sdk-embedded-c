@@ -123,7 +123,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
             return IOTC_BSP_IO_FS_OPEN_ERROR;
         }
 
-        status = OtaArchive_init( &firmware_archive ); // GN: warning #225-D: function "OtaArchive_init" declared implicitly
+        status = OtaArchive_init( &firmware_archive ); 
 
         if ( 0 > status )
         {
