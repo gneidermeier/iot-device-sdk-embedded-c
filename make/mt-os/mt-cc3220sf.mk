@@ -138,19 +138,11 @@ IOTC_CONFIG_FLAGS += -DIOTC_DEBUG_PRINTF=Report
 # wolfssl API
 IOTC_CONFIG_FLAGS += -DNO_WRITEV
 IOTC_CONFIG_FLAGS += -DSINGLE_THREADED
-
-# GN:  use ' make IOTC_BSP_TLS='wolfssl'   PRESET=CC3220SF'
-# GN: dirent.h
 IOTC_CONFIG_FLAGS += -DNO_WOLFSSL_DIR 
-# GN: fcntl.h
 IOTC_CONFIG_FLAGS += -DWOLFSSL_USER_IO 
-
-#  GN:  forced some -Defines for bsp_crypto ... wth? "Using TLS extensions requires HAVE_TLS_EXTENSIONS to be defined."
 IOTC_CONFIG_FLAGS += -DHAVE_TLS_EXTENSIONS 
-# GN: "error #20: identifier "OcspRequest" is undefined"
 IOTC_CONFIG_FLAGS += -DHAVE_OCSP
-#IOTC_CONFIG_FLAGS += -DHAVE_ECC   # no I guess don't need this one ;)
-# GN:
+
 
 IOTC_ARFLAGS := r $(XI)
 # GN: i don't think so ... IOTC_LIB_FLAGS := -llibxively.a
