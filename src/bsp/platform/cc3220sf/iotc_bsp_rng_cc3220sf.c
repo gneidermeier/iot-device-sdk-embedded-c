@@ -86,7 +86,13 @@ void iotc_bsp_rng_shutdown() {
 #include <cyassl/ctaocrypt/random.h>
 #include <iotc_allocator.h>
 
-static WC_RNG wolfcrypt_rng;
+
+/**
+ * 'wolfcrypt_rng variable to be static-no-more, but leaving it in this 'tslib_wolfssl' 
+ *  (conditionally-compiled) section of code. 
+ * @ see "bsp/crypto/wolfssl/iotc_bsp_crypto_wolfssl.c" ... "reusing wolfcrypt_rng from BSP_RNG module"
+ */
+WC_RNG wolfcrypt_rng;
 
 void iotc_bsp_rng_init() {
   /* check if already initialized */
