@@ -127,10 +127,10 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(
   }
 
   iotc_bsp_debug_logger("CyaSSL context created");
-#if 0 // GN: tmp 
+
   CyaSSL_SetIORecv(wolfssl_tls_context->ctx, iotc_wolfssl_recv);
   CyaSSL_SetIOSend(wolfssl_tls_context->ctx, iotc_wolfssl_send);
-#endif // GN: 
+
 #ifdef IOTC_DISABLE_CERTVERIFY
   /* disable verify cause no proper certificate */
   CyaSSL_CTX_set_verify(wolfssl_tls_context->ctx, SSL_VERIFY_NONE, 0);
@@ -204,9 +204,9 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(
   /* no OCSP */
 
 #endif
-#if 0 // GN: tmp
+
   CyaSSL_set_using_nonblock(wolfssl_tls_context->obj, 1);
-#endif // GN:
+
   CyaSSL_SetIOReadCtx(wolfssl_tls_context->obj,
                       init_params->libiotc_io_callback_context);
   CyaSSL_SetIOWriteCtx(wolfssl_tls_context->obj,

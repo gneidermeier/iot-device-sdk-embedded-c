@@ -27,7 +27,7 @@
 #include "wolfssl/wolfcrypt/asn.h"
 #include "wolfssl/wolfcrypt/ecc.h"
 #include "wolfssl/wolfcrypt/logging.h"
-#include "wolfssl/internal.h" // GN: DerBuffer
+#include "wolfssl/internal.h" // DerBuffer
 
 
 #include <stdio.h>
@@ -36,7 +36,7 @@ static iotc_bsp_crypto_state_t _iotc_bsp_base64_encode(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
     const uint8_t* src_buf, size_t src_buf_size) {
   size_t dst_string_size_orig = dst_string_size;
-#if 0 // GN:
+
   int result =
       Base64_Encode_NoNl(src_buf, src_buf_size, NULL, (word32*)bytes_written);
 
@@ -71,9 +71,6 @@ err_handling:
     default:
       return IOTC_BSP_CRYPTO_BASE64_ERROR;
   }
-#else // GN:
- return IOTC_BSP_CRYPTO_BASE64_ERROR;
-#endif // GN:
 }
 
 iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
@@ -155,7 +152,6 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
   IOTC_CHECK_STATE(ret);
 
   ecc_key ecc_key_private;
-#if 0 // GN:  
   wc_ecc_init(&ecc_key_private);
 
   word32 in_out_idx = 0;
@@ -190,15 +186,14 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
   const size_t padding_size_s = integer_size - mp_unsigned_bin_size(&s);
   ret = mp_to_unsigned_bin(&s, dst_buf + integer_size + padding_size_s);
   IOTC_CHECK_STATE(ret);
-#endif // GN:
+
 err_handling:
 
   FreeDer(&pDer);
-#if 0 // GN:
   wc_ecc_free(&ecc_key_private);
   mp_free(&r);
   mp_free(&s);
-#endif
+
   switch (ret) {
     case BUFFER_E:
       return IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR;
