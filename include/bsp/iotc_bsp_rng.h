@@ -28,10 +28,17 @@
  */
 
 #include <stdint.h>
+#include "wolfssl/ssl.h" // wc_rng type
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/**
+ * @extern 
+ * @brief "reusing wolfcrypt_rng from BSP_RNG module".
+ */
+extern WC_RNG wolfcrypt_rng;
 
 /**
  * @function
