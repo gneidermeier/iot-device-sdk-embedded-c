@@ -66,8 +66,7 @@ ifneq (,$(findstring fuzz_test,$(CONFIG)))
     IOTC_CONFIG_FLAGS += -fsanitize=address -fomit-frame-pointer -fsanitize-coverage=inline-8bit-counters -g
 endif
 
-#IOTC_COMMON_COMPILER_FLAGS += -Wall -Werror
-IOTC_COMMON_COMPILER_FLAGS += -Wall          # GN: 
+IOTC_COMMON_COMPILER_FLAGS += -Wall -Werror
 IOTC_C_FLAGS +=
 IOTC_CXX_FLAGS += -Wextra -std=c++11
 
