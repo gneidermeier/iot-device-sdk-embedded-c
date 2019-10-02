@@ -14,7 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-supported_wolfssl_version="v3.15.3-stable"
+#
+# GN: seem to havea  regression w/ v3.15.3 when building libiotc (target CCSv8, host DOS/Window) against WolfSSL v3.15.3-stable ... 
+#    "./third_party/tls/wolfssl/wolfssl/wolfio.h", line 113: fatal error #1965: cannot open source file "fcntl.h"
+# v3.15.7 remedies the situation so for now we go with that ... need to ensure that our "dual-library-build-config" have matching WolfSSL version.
+#
+# Note: we integrate WolfSSL and build with our project in CCS IDE, so here we are not really using the functionality of this
+# script to build WolfSSL ... and compared to the Xively verssion,  it no longer provides clone/checkout src-tree from github so ... infomration only I guess.
+#
+supported_wolfssl_version="v3.15.5-stable"
 
 # Helper function to exit with error in a consistent manner.
 exit_with_error() {
