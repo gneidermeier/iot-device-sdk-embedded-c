@@ -27,7 +27,6 @@
 #include "wolfssl/wolfcrypt/asn.h"
 #include "wolfssl/wolfcrypt/ecc.h"
 #include "wolfssl/wolfcrypt/logging.h"
-#include "wolfssl/internal.h" // DerBuffer
 
 
 #include <stdio.h>
